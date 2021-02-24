@@ -1,0 +1,18 @@
+port: 3000
+jwt: jsonwebtokensecret
+models: 
+  pets:
+    __label: Pet Manager
+    name: 
+      type: text
+      unique: true
+      required: true
+    age:
+      type: number
+  people:
+    __everyone:
+      list: true
+admin:
+  email: admin@example.com
+  apiKey: defaultapikey
+  password: defaultpassword

@@ -1,0 +1,39 @@
+{
+  "name": "rugo-api",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "NODE_ENV=production node serve.js",
+    "dev": "DEBUG=rugo:* NODE_ENV=development nodemon dev.js",
+    "test": "DEBUG=rugo:* mocha",
+    "coverage": "nyc npm run test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@koa/cors": "^3.1.0",
+    "@koa/router": "^10.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.13.1",
+    "koa-body": "^4.2.0",
+    "koa-qs": "^3.0.0",
+    "moment": "^2.29.1",
+    "mongodb": "^3.6.4",
+    "mongodb-memory-server": "^6.9.3",
+    "qs": "^6.9.6",
+    "ramda": "^0.27.1",
+    "randomstring": "^1.1.5",
+    "rugo-mongodb": "git+https://github.com/anhhao-me/rugo-mongodb.git",
+    "terminal-kit": "^2.0.3",
+    "yaml": "^1.10.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.0",
+    "chai-http": "^4.3.0",
+    "mocha": "^8.3.0",
+    "nodemon": "^2.0.7",
+    "nyc": "^15.1.0"
+  }
+}
