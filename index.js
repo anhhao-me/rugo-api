@@ -39,6 +39,40 @@ module.exports = async () => {
     return ctx.forbidden('Wrong email or password');
   });
 
+  server.router.use(async (ctx, next) => {
+    // authentication
+    const { 'x-api-key': apiKey, 'authorization': authToken } = ctx.headers;
+
+    if (config.admin.apiKey === apiKey)
+      ctx.user = config.admin;
+    else {
+      const rel = await auth.verify(authToken, config.jwt);
+      if (rel && rel.email === config.admin.email){
+        ctx.user = config.admin
+      }
+    }
+
+    // permission
+    ctx.permission = function(){
+      return this.user && this.user.email === config.admin.email;
+    }
+
+    await next();
+  });
+
+  // me
+  server.router.get('/me', async ctx => {
+    if (!ctx.user)
+      return ctx.forbidden('You are no allow to access');
+
+    ctx.body = {
+      user: {
+        email: ctx.user.email
+      },
+      schemas: config.models
+    }
+  });
+
   // api
   server.router.use('/:modelId', async (ctx, next) => {
     const { modelId } = ctx.params;
@@ -61,23 +95,6 @@ module.exports = async () => {
 
     // assign model handle
     ctx.model = Models[modelType](modelId, modelSchema);
-
-    // authentication
-    const { 'x-api-key': apiKey, 'authorization': authToken } = ctx.headers;
-
-    if (config.admin.apiKey === apiKey)
-      ctx.user = config.admin;
-    else {
-      const rel = await auth.verify(authToken, config.jwt);
-      if (rel && rel.email === config.admin.email){
-        ctx.user = config.admin
-      }
-    }
-
-    // permission
-    ctx.permission = function(){
-      return this.user && this.user.email === config.admin.email;
-    }
 
     await next();
   }, Api);
