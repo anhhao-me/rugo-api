@@ -2,9 +2,9 @@ const path = require('path');
 const separator = path.sep;
 const { requireYAML } = require('./src/utils');
 const nodeEnv = process.env.NODE_ENV;
-const NODE_CONFIG_DIR = path.join(__dirname, './configs');
+const NODE_CONFIG_DIR = process.env.NODE_CONFIG_DIR || path.join(__dirname, './configs');
 
-const config = requireYAML(__dirname, `./configs/${nodeEnv}.yaml`);
+const config = requireYAML(NODE_CONFIG_DIR, `./${nodeEnv}.yaml`);
 
 const convert = (current) => {
   const result = Array.isArray(current) ? [] : {};
