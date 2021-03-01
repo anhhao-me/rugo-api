@@ -10,9 +10,9 @@ const { Driver: MongoDBDriver, Model: MongoDBModel } = require('rugo-mongodb');
 
 module.exports = async () => {
   // database
-  const db = await MongoDBDriver(config.database);
+  const client = await MongoDBDriver(config.database);
   const Models = {
-    mongodb: curry(MongoDBModel)(db)
+    mongodb: curry(MongoDBModel)(client.db())
   };
 
   // server
@@ -102,6 +102,6 @@ module.exports = async () => {
   const listener = await server.listen();
 
   return {
-    db, server, listener
+    server, listener, client
   };
 };

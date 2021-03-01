@@ -18,7 +18,7 @@ chai.use(chaiHttp);
 
 describe('Server', () => {
   let server;
-  let db;
+  let client;
 
   beforeEach(async function(){
     this.timeout(10000);
@@ -27,13 +27,13 @@ describe('Server', () => {
     
     const res = await require('../index')();
     server = res.listener;
-    db = res.db;
+    client = res.client;
   });
 
   afterEach(async function(){
     this.timeout(10000);
     await mongoServer.stop();
-    await db.stop();
+    client.close();
     server.close();
   });
 
