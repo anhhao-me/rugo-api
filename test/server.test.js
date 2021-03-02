@@ -161,6 +161,23 @@ describe('Server', () => {
         .get(`/pets`)
         .set('Authorization', 'jwt wrongtoken')).to.has.property('status', 403);
     }); 
+
+    it('should get info', async () => {
+      const res2 = await chai.request(server)
+        .get(`/`)
+        .set('X-API-Key', config.admin.apiKey)
+        
+      expect(res2).to.have.status(200);
+      expect(res2.body).to.have.property('user');
+      expect(res2.body).to.have.property('agent');
+    }); 
+
+    it('should not get info', async () => {
+      const res2 = await chai.request(server)
+        .get(`/`);
+        
+      expect(res2).to.have.status(403);
+    }); 
   });
 
   describe('Request', () => {

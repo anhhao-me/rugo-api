@@ -61,7 +61,7 @@ module.exports = async () => {
   });
 
   // me
-  server.router.get('/me', async ctx => {
+  server.router.get('/', async ctx => {
     if (!ctx.user)
       return ctx.forbidden('You are no allow to access');
 
@@ -69,7 +69,9 @@ module.exports = async () => {
       user: {
         email: ctx.user.email
       },
-      schemas: config.models
+      agent: {
+        models: config.models 
+      }
     }
   });
 
