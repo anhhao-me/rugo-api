@@ -14,6 +14,17 @@ const authorization = action => async (ctx, next) => {
   await next();
 }
 
+router.use('/', async (ctx, next) => {
+  try {
+    await next();
+  } catch(err){
+    ctx.status = 500;
+    ctx.body = {
+      error: err.message
+    }
+  }
+})
+
 router.get('/:id', authorization('get'), async ctx => {
   const { id } = ctx.params;
   const doc = await ctx.model.get(id);
